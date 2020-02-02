@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,6 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'OLIVER FLUTTER',
       theme: ThemeData(
         // This is the theme of your application.
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.orange,
       ),
-      home: MyHomePage(title: 'Eh nois'),
+      home: MyHomePage(title: 'Join Meet up Toronto'),
     );
   }
 }
@@ -146,6 +148,15 @@ class ScreenArguments {
   ScreenArguments(this.name, this.email);
 }
 
+  _launchURL() async {
+  const url = 'https://flutter.dev';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 class FirstRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -160,7 +171,22 @@ class FirstRoute extends StatelessWidget {
                   image: NetworkImage(
                       'https://media3.giphy.com/media/aOften89vRbG/giphy.gif?cid=790b761191dcb1e98801cd65b752f66f9e8a99334de7bf39&rid=giphy.gif')),
               Text('Hey ' + info.name),
-              Text('And email was sent to: ' + info.email)
+              Text('And email was sent to: ' + info.email),
+              Container(
+                width: 200,
+                child: RaisedButton(
+                  color: Colors.lightBlue,
+                  child: Text(
+                    "Go to Meetup Page",
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
+                  ),
+                  onPressed: () {
+                     _launchURL();
+                  },
+              )
+            ),
             ]),
       ),
       floatingActionButton: FloatingActionButton(
