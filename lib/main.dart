@@ -47,85 +47,140 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final myNameController = TextEditingController();
+  final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _validated = false;
+  var _name = '';
+  var _email = '';
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     myNameController.dispose();
-    myPasswordController.dispose();
+    myEmailController.dispose();
     super.dispose();
   }
 
-  var _name = '';
-  var _email = '';
+  void _validateInputs() {
+    if (_formKey.currentState.validate()) {
+      _validated = true;
+      _formKey.currentState.save();
+    }
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _name = myNameController.text;
-      _email = myPasswordController.text;
-    });
+  String validateName(String value) {
+    if (value.length < 3)
+      return 'Name must be filled';
+    else
+      return null;
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      body: SafeArea(
-          child: Column(children: <Widget>[
+    return new Scaffold(
+        body: SafeArea(
+            child: Container(
+              child : new Form(
+                key: _formKey,
+                autovalidate: _validated,
+                child: FormUI(),
+              )
+            )
+        )
+      );
+  }
+
+  // Here is our Form UI
+  Widget FormUI() {
+    return new Column(
+      children: <Widget>[
         Container(
             margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 100),
-            child: Image.asset(
+            child: new Image.asset(
               "assets/images/home_banner.jpeg",
               fit: BoxFit.cover,
-            )),
-        Container(
-            height: 150.0,
-            margin: const EdgeInsets.symmetric(horizontal: 6.0),
-            child: ListView(
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.person_outline),
-                  title: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Name',
-                    ),
-                    controller: myNameController,
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(Icons.email),
-                  title: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                    ),
-                    controller: myPasswordController,
-                  ),
-                ),
-              ],
-            )),
-        Container(
-            width: 100,
-            child: RaisedButton(
+            )
+        ),
+
+        new Container(
+          width: 300.0,
+          child: TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Name',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              prefixIcon: Icon(Icons.person_outline),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(),
+              ),
+            ),
+            keyboardType: TextInputType.text,
+            controller: myNameController,
+            validator: validateName,
+            style: new TextStyle(
+              fontFamily: "Poppins",
+            ),
+            onSaved: (String val) {
+              _name = val;
+            },
+          ),
+        ),
+
+        new SizedBox(
+          height: 10.0,
+        ),
+
+        new Container(
+          width: 300.0,
+          child: TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Email',
+              contentPadding: EdgeInsets.fromLTRB(50.0, 15.0, 50.0, 15.0),
+              prefixIcon: Icon(Icons.email),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(),
+              ),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            controller: myEmailController,
+            validator: validateEmail,
+            style: new TextStyle(
+              fontFamily: "Poppins",
+            ),
+            onSaved: (String val) {
+              _email = val;
+            },
+          ),
+        ),
+
+        new SizedBox(
+          height: 10.0,
+        ),
+
+        new RaisedButton(
               color: Colors.lightBlue,
               child: Text(
                 'Join in!',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                _incrementCounter();
+                _validateInputs();
+                if (_validated == false){
+                  return null;
+                }
+                else{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -133,11 +188,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       settings: RouteSettings(
                           arguments: ScreenArguments(_name, _email))),
                 );
+                }
               },
-            )),
-      ])),
+          )
+
+      ]
     );
   }
+
 }
 
 class ScreenArguments {
