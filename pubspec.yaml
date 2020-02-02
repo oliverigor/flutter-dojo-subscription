@@ -1,5 +1,5 @@
-name: my_app
-description: A new Flutter project.
+name: T.C.D
+description: Toronto Coding Dojo App.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -18,12 +18,19 @@ environment:
 
 dependencies:
   url_launcher: ^5.4.1
+  flutter_launcher_icons: "^0.7.3"
   flutter:
     sdk: flutter
+    
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+
+flutter_icons:
+  image_path: "assets/icon/logo.jpeg" 
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +47,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+   - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.lightBlue,
       ),
       home: MyHomePage(title: 'Join Meet up Toronto'),
     );
@@ -85,10 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(children: <Widget>[
         Container(
             margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 100),
-            child: CircleAvatar(
-              radius: 100.0,
-              backgroundImage: NetworkImage(
-                  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+            child: Image.asset(
+              "assets/images/home_banner.jpeg",
+              fit: BoxFit.cover,
             )),
         Container(
             height: 150.0,
@@ -149,7 +148,7 @@ class ScreenArguments {
 }
 
   _launchURL() async {
-  const url = 'https://flutter.dev';
+  const url = 'https://www.meetup.com/coding-dojo-toronto/';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
@@ -163,6 +162,7 @@ class FirstRoute extends StatelessWidget {
     final ScreenArguments info = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +171,7 @@ class FirstRoute extends StatelessWidget {
                   image: NetworkImage(
                       'https://media3.giphy.com/media/aOften89vRbG/giphy.gif?cid=790b761191dcb1e98801cd65b752f66f9e8a99334de7bf39&rid=giphy.gif')),
               Text('Hey ' + info.name),
-              Text('And email was sent to: ' + info.email),
+              Text('an Email was sent to: ' + info.email),
               Container(
                 width: 200,
                 child: RaisedButton(
@@ -190,6 +190,7 @@ class FirstRoute extends StatelessWidget {
             ]),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlue,
         onPressed: () {
           Navigator.pop(
             context,
