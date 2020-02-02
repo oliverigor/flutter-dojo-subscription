@@ -89,15 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: SafeArea(
-            child: Container(
+        body: Container(
               child : new Form(
                 key: _formKey,
                 autovalidate: _validated,
                 child: FormUI(),
               )
-            )
-        )
+        ),
       );
   }
 
@@ -106,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Column(
       children: <Widget>[
         Container(
-            margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 100),
+            margin: const EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 30.0),
             child: new Image.asset(
               "assets/images/home_banner.jpeg",
               fit: BoxFit.cover,
@@ -118,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: TextFormField(
             decoration: InputDecoration(
               labelText: 'Name',
-              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 15.0),
               prefixIcon: Icon(Icons.person_outline),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -138,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
 
         new SizedBox(
-          height: 10.0,
+          height: 20.0,
         ),
 
         new Container(
@@ -166,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
 
         new SizedBox(
-          height: 10.0,
+          height: 30.0,
         ),
 
         new RaisedButton(
@@ -227,9 +225,36 @@ class FirstRoute extends StatelessWidget {
             children: <Widget>[
               Image(
                   image: NetworkImage(
-                      'https://media3.giphy.com/media/aOften89vRbG/giphy.gif?cid=790b761191dcb1e98801cd65b752f66f9e8a99334de7bf39&rid=giphy.gif')),
-              Text('Hey ' + info.name),
-              Text('an Email was sent to: ' + info.email),
+                      'https://media3.giphy.com/media/aOften89vRbG/giphy.gif?cid=790b761191dcb1e98801cd65b752f66f9e8a99334de7bf39&rid=giphy.gif'
+                  )
+              ),
+              RichText(
+                text: new TextSpan(
+                  style: new TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    new TextSpan(text: 'Hello '),
+                    new TextSpan(text: info.name, style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+                  ],
+                ),
+              ),
+              RichText(
+                text: new TextSpan(
+                  style: new TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    new TextSpan(text: 'An email was sent to: '),
+                    new TextSpan(text: info.email, style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+                  ],
+                ),
+              ),
+              new SizedBox(
+                height: 20.0,
+              ),
               Container(
                 width: 200,
                 child: RaisedButton(
